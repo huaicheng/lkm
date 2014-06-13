@@ -1,0 +1,6 @@
+kvm resource scheduling policy implemented in kernel layer
+
+It aims to schedule the resource collaboratively for CPU, Disk I/O,
+   Network I/O, memory.
+
+The scheduling architecture is like following:
