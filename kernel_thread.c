@@ -7,10 +7,10 @@
 #include <linux/kthread.h>
 #include <linux/cpumask.h>
 
-#define sleep_millisecs 1000 * 60
+#define sleep_millisecs (1000 * 60)
 
 MODULE_LICENSE("GPL v2");
-MODULE_AUTHOR("coperd <lhcwhu@gmail.com>");
+MODULE_AUTHOR("Huaicheng Li <lhcwhu@gmail.com>");
 MODULE_VERSION("v0.1");
 MODULE_DESCRIPTION("kernel thread example");
 MODULE_ALIAS("kthread");
@@ -39,8 +39,9 @@ static int __init kthread_init()
 
     for_each_present_cpu(cpu) {
         parameter[cpu] = cpu;
-        
-        t_thread[cpu] = kthread_create(mythread, (void *)(parameter + cpu), "thread/%d", cpu);
+
+        t_thread[cpu] = kthread_create(mythread, (void *)(parameter + cpu),
+                                       "thread/%d", cpu);
 
         if (IS_ERR(t_thread[cpu])) {
             printk(KERN_ERR "[thread/%d]: creating kthread failed \n", cpu);
@@ -50,7 +51,7 @@ static int __init kthread_init()
         wake_up_process(t_thread[cpu]);
     }
     schedule_timeout_interruptible(msecs_to_jiffies(sleep_millisecs));
-    
+
     for (cpu = 0; cpu < cpu_count; cpu++) {
         kthread_stop(t_thread[cpu]);
     }
