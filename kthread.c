@@ -46,7 +46,7 @@ int kthread_fct(void *data)
 
 struct task_struct *ts;
 
-/* 
+/*
  * module init/exit functions
  */
 int __init kthr_init(void)
